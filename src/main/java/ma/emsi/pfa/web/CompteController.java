@@ -25,7 +25,7 @@ public class CompteController {
     @Autowired
     CompteRepository compteRepository;
 
-    private String token = "EAAEvI07AQgEBAAZB1jb0abk7ibyua52Y1xSArfAS0NfXDVpztLTRXOsJDSCrGkLgHHq8LHUvovWa60V6UpFF6oWXrVV2QghRwIkFLIeMejN3JWjsBOhpKc2TpBiYcWDDl1ULAIYn6SwaYb6I4ZAL55BIj0bke6m9Dj5yJSHJDxZAmuuArZBZClvNElxL7wc4ZBD8gcgoDkOQZDZD";
+    private String token = "Your-Api-Key-here";
     private FacebookClient facebookClient = new DefaultFacebookClient(token, Version.LATEST);
 
 
