@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template">
+<head>
+    <meta charset="UTF-8">
+    <script th:inline="javascript">
+        window.onload = function () {
+            var total = [[${total}]];
+            var totalPos = (([[${totalPos}]] * 100) / total).toFixed(2);
+            var totalNeg = (([[${totalNeg}]] * 100) / total).toFixed(2);
+            var totalNeu = (([[${totalNeu}]] * 100) / total).toFixed(2);
+            var chart = new CanvasJS.Chart("chartContainer",
+                {
+                    title: {
+                        text: "Pourcentage des commentaires : ",
+                        fontFamily: "Impact",
+                        fontWeight: "normal"
+                    },
+                    legend: {
+                        verticalAlign: "bottom",
+                        horizontalAlign: "center"
+                    },
+                    data: [
+                        {
+                            indexLabelFontSize: 20,
+                            indexLabelFontColor: "darkgrey",
+                            indexLabelLineColor: "darkgrey",
+                            indexLabelPlacement: "outside",
+                            type: "doughnut",
+                            showInLegend: true,
+                            dataPoints: [
+                                {
+                                    y: totalPos,
+                                    legendText: "Commentaires Positifs " + totalPos + "%",
+                                    indexLabel: "Commentaires Positifs " + totalPos + "%"
+                                },
+                                {
+                                    y: totalNeg,
+                                    legendText: "Commentaires Negatifs " + totalNeg + "%",
+                                    indexLabel: "Commentaires Negatifs " + totalNeg + "%"
+                                },
+                                {
+                                    y: totalNeu,
+                                    legendText: "Commentaires Neutres " + totalNeu + "%",
+                                    indexLabel: "Commentaires Neutres " + totalNeu + "%"
+                                },
+                            ]
+                        }
+                    ]
+                });
+
+            chart.render();
+        }
+    </script>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <title>Sentiments</title>
+<body>
+<div layout:fragment="pageContent">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">Analyse de sentiment de la publication :</div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label>ID :</label>
+                    <strong><label th:text="${id}"></label></strong>
+                </div>
+                <div class="form-group">
+                    <label>Date de publication :</label>
+                    <strong><label th:text="${date}"></label></strong>
+                </div>
+                <div class="form-group">
+                    <label>Message :</label>
+                    <strong><label th:text="${message}"></label></strong>
+                </div>
+                <div class="form-group">
+                    <label>La majorité des commentaires ont été : </label>
+                    <strong><label th:text="${sentiment}"></label></strong>
+                    <label> avec un score de : </label>
+                    <strong><label th:text="${resultatScore}"></label>%</strong>
+                </div>
+                <div class="form-group">
+                    <label>La précision est :</label>
+                    <strong><label th:text="${resultatMagnitude}"></label>%</strong>
+                </div>
+                <div id="chartContainer" style="height: 300px; width: 100%;">
+                </div>
+                <div class="card-footer">
+                    <a th:href="@{publications}" class="btn btn-primary">Revenir aux publications</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

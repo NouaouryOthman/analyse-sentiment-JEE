@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Publications de la page</title>
+</head>
+<body>
+<div layout:fragment="pageContent">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                Liste des Publications
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>ID</th>
+                        <th>Message</th>
+                        <th>Nombre de Likes</th>
+                        <th>Date de création</th>
+                        <th></th>
+                    </tr>
+                    <tr th:each="p:${posts}">
+                        <td th:text="${p.id}"></td>
+                        <td th:text="${p.message}"></td>
+                        <td th:text="${p.likesCount}"></td>
+                        <td th:text="${p.createdTime}"></td>
+                        <td><a class="btn btn-info"
+                               th:href="@{comments(id=${p.id}, date=${p.createdTime}, message=${p.message})}">Analyser</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

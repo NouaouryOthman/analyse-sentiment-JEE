@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Vos comptes</title>
+</head>
+<body>
+<div layout:fragment="pageContent">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                Liste des comptes
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>URL</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr th:each="c:${comptes}">
+                        <td th:text="${c.id}"></td>
+                        <td th:text="${c.nom}"></td>
+                        <td th:text="${c.url}"></td>
+                        <td><a class="btn btn-info"
+                               th:href="@{publications}">Publications</a>
+                        </td>
+                        <td><a class="btn btn-success"
+                               th:href="@{detailsCompte(id=${c.id})}">Details</a>
+                        </td>
+                        <td><a onclick="return confirm('Voulez-vous vraiment supprimer le compte ?')"
+                               class="btn btn-danger"
+                               th:href="@{supprimerCompte(id=${c.id}, page=${currentPage}, size=${size})}">Supprimer</a>
+                        </td>
+                    </tr>
+                </table>
+                <ul class="nav nav-pills">
+                    <li th:each="page,status:${pages}">
+                        <a th:class="${status.index == currentPage?'btn btn-primary':'btn'}"
+                           th:href="@{comptes(page=${status.index}, size=${size})}"
+                           th:text="${status.index + 1}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

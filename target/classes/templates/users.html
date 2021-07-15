@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="template">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Page users</title>
+</head>
+<body>
+<div layout:fragment="pageContent">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                Liste des Users
+            </div>
+            <div class="card-body">
+                <form method="get" th:action="@{users}">
+                    <div class="form-group">
+                        <label>Nom </label>
+                        <input type="text" name="motCle" th:value="${motCle}">
+                        <button class="btn btn-success">Chercher</button>
+                    </div>
+                </form>
+                <table class="table">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Prenom</th>
+                        <th>Email</th>
+                        <th>Active</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr th:each="u:${users}">
+                        <td th:text="${u.id}"></td>
+                        <td th:text="${u.nom}"></td>
+                        <td th:text="${u.prenom}"></td>
+                        <td th:text="${u.email}"></td>
+                        <td class="text-info" th:if="${u.active == true}"><strong>Oui</strong></td>
+                        <td class="text-danger" th:if="${u.active == false}"><strong>Non</strong></td>
+                        <td><a
+                                onclick="return confirm('Voulez-vous vraiment supprimer le user ?')"
+                                class="btn btn-danger"
+                                th:href="@{supprimerUser(id=${u.id}, page=${currentPage}, size=${size}, motCle=${motCle})}">Supprimer</a>
+                        </td>
+                        <td>
+                            <a th:if="${u.active == true}" class="btn btn-danger" th:href="@{activerUser(id=${u.id}, page=${currentPage}, size=${size}, motCle=${motCle})}">Désactiver</a>
+                            <a th:if="${u.active == false}" class="btn btn-success" th:href="@{activerUser(id=${u.id}, page=${currentPage}, size=${size}, motCle=${motCle})}">Activer</a>
+                        </td>
+                    </tr>
+                </table>
+                <ul class="nav nav-pills">
+                    <li th:each="page,status:${pages}">
+                        <a th:class="${status.index == currentPage?'btn btn-primary':'btn'}"
+                           th:href="@{users(page=${status.index}, motCle=${motCle}, size=${size})}"
+                           th:text="${status.index + 1}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
